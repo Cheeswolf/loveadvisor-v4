@@ -1,0 +1,119 @@
+LoveAdvisorV3/
+│
+├── app/                                   # 主后端服务（核心运行区）
+│   │
+│   ├── __init__.py
+│   ├── main.py                            # FastAPI 入口（仅做 app 初始化）
+│   │
+│   ├── api/                               # 接口层（Controller）
+│   │   ├── __init__.py
+│   │   ├── analyze.py                     # 主接口 /analyze（调用 pipeline）
+│   │   ├── health.py                      # 健康检查接口
+│   │   └── debug.py                       # 调试接口（输出中间层）
+│   │
+│   ├── core/                              # 核心调度层（V3 新核心）
+│   │   ├── __init__.py
+│   │   ├── pipeline_orchestrator.py       # 主流程编排（V3核心）
+│   │   ├── runtime_context.py             # 运行上下文（debug / mode）
+│   │   └── enums.py                       # 枚举定义（阶段、兴趣等）
+│   │
+│   ├── services/                          # 业务服务层
+│   │   ├── __init__.py
+│   │   ├── preprocess_service.py          # 文本清洗（S1）
+│   │   ├── signal_extractor.py            # 信号提取（S2+S3 调度）
+│   │   ├── strategy_generator.py          # 建议生成（S5）
+│   │   ├── guardrail_service.py           # 安全约束层（V3新增）
+│   │   ├── output_builder.py              # 输出组装（O1）
+│   │   └── history_service.py             # 历史记录（V3新增）
+│   │
+│   ├── llm/                               # 模型调用抽象层（V3关键）
+│   │   ├── __init__.py
+│   │   ├── base_provider.py               # 抽象接口（统一调用规范）
+│   │   ├── provider_factory.py            # provider 选择器
+│   │   ├── deepseek_provider.py           # DeepSeek 实现
+│   │   ├── openai_provider.py             # OpenAI 实现（可选）
+│   │   └── mock_provider.py               # Mock 模式（测试用）
+│   │
+│   ├── prompts/                           # Prompt 管理层（完全本地化）
+│   │   ├── __init__.py
+│   │   ├── preprocess_prompt.py           # S1 Prompt
+│   │   ├── s2_prompt.py                   # 基础信号提取
+│   │   ├── s3_prompt.py                   # 高级信号提取
+│   │   ├── s5_prompt.py                   # 建议生成
+│   │   └── prompt_versions.py             # Prompt版本管理（V3新增）
+│   │
+│   ├── parsers/                           # 模型输出解析层（稳定性关键）
+│   │   ├── __init__.py
+│   │   ├── s2_parser.py                   # S2解析与兜底
+│   │   ├── s3_parser.py                   # S3解析与兜底
+│   │   └── s5_parser.py                   # S5解析与兜底
+│   │
+│   ├── rules/                             # 规则引擎（R1核心）
+│   │   ├── __init__.py
+│   │   ├── rules.py                       # 总入口（兼容旧版本）
+│   │   ├── stage_rules.py                 # 关系阶段判断
+│   │   ├── interest_rules.py              # 兴趣等级判断
+│   │   └── next_step_policy.py            # 行动边界约束（V3强化）
+│   │
+│   ├── schemas/                           # 数据结构定义（强约束）
+│   │   ├── __init__.py
+│   │   ├── request_models.py              # 输入结构
+│   │   ├── signal_models.py               # S2/S3结构
+│   │   ├── result_models.py               # 输出结构
+│   │   └── eval_models.py                 # 评测结构
+│   │
+│   └── utils/                             # 工具函数
+│       ├── __init__.py
+│       ├── json_utils.py                  # JSON安全处理
+│       ├── logging_utils.py               # 日志工具
+│       ├── retry_utils.py                 # 重试机制
+│       └── text_utils.py                  # 文本处理
+│
+├── configs/                               # 配置层（完全替代 Coze 配置）
+│   ├── settings.py                        # 基础配置（API Key等）
+│   ├── model_registry.yaml                # 模型配置（provider选择）
+│   ├── prompt_registry.yaml               # Prompt版本配置
+│   └── env.example                        # 环境变量模板
+│
+├── frontend/                              # 前端展示层
+│   ├── streamlit_app.py                   # 主入口
+│   └── components/                        # UI组件（卡片化扩展）
+│
+├── test_system/                           # 评测系统（V2.5核心保留+增强）
+│   │
+│   ├── data/
+│   │   ├── test_cases.json                # 标准测试集（A1–E3）
+│   │   ├── frozen_s2_outputs.json         # 冻结S2输出（回归测试）
+│   │   └── frozen_s3_outputs.json         # 冻结S3输出（回归测试）
+│   │
+│   ├── scripts/
+│   │   ├── batch_test.py                  # 批量测试
+│   │   ├── metrics_report.py              # 指标统计
+│   │   ├── regression_test.py             # 回归测试（V3新增）
+│   │   └── llm_ab_test.py                 # 模型对比测试（V3新增）
+│   │
+│   └── output/
+│       ├── test_results.csv
+│       ├── test_results.json
+│       ├── metrics_report.json
+│       └── ab_test_report.json
+│
+├── data/                                  # 数据层（V3新增）
+│   ├── history/                           # 用户历史记录
+│   ├── cache/                             # 模型缓存
+│   └── snapshots/                         # 实验快照
+│
+├── docs/                                  # 文档层
+│   ├── architecture/                      # 架构说明（V1/V2/V3）
+│   ├── dev_logs/                          # 开发日志
+│   ├── test_reports/                      # 测试报告
+│   └── product_notes/                     # 产品思考
+│
+├── scripts/                               # 运维脚本（V3新增）
+│   ├── run_dev.py                         # 本地开发启动
+│   ├── run_prod.py                        # 生产启动
+│   └── migrate_prompts.py                 # Prompt迁移工具
+│
+├── requirements.txt
+├── README.md
+└── run.py                                 # 项目统一启动入口

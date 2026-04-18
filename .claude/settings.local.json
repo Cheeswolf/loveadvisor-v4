@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(python -c \"import sys; sys.path.insert\\(0, '.'\\); from app.schemas.signal_models import S2Signal; print\\('S2Signal import successful'\\)\")",
+      "Bash(python -m py_compile app/services/image_to_text_service.py)"
+    ]
+  }
+}

@@ -1,0 +1,60 @@
+LoveAdvisorV2.5/
+│
+├── app/                               # 主业务后端
+│   ├── __init__.py
+│   ├── main.py                        # FastAPI 入口，只负责 app 初始化与路由挂载
+│   │
+│   ├── api/                           # 接口层
+│   │   ├── __init__.py
+│   │   └── analyze.py                 # /analyze 接口，只做入参接收与调用 pipeline
+│   │
+│   ├── services/                      # 业务服务层
+│   │   ├── __init__.py
+│   │   ├── coze_client.py             # Coze API 调用
+│   │   ├── result_parser.py           # Coze 返回结果解析（S2/S3/S5 提取）
+│   │   ├── output_builder.py          # O1 输出组装与默认兜底
+│   │   └── pipeline_service.py        # 主流程编排：S2/S3 → R1 → S5 → O1
+│   │
+│   ├── rules/                         # 规则层
+│   │   ├── __init__.py
+│   │   └── rules.py                   # infer_relationship_stage / infer_interest_level / infer_r1
+│   │
+│   └── utils/                         # 通用工具层
+│       ├── __init__.py
+│       └── helpers.py                 # safe_json_loads / safe_str / safe_list / ensure_json_string
+│
+├── configs/                           # 配置层
+│   └── settings.py                    # Coze API、workflow_id、timeout、token 等配置
+│
+├── frontend/                          # 展示层
+│   └── frontend.py                    # Streamlit 前端，只负责输入、调用后端、展示结果
+│
+├── test_system/                       # 评测子系统（V2.5 核心新增）
+│   ├── data/
+│   │   └── test_cases.json            # 15 条结构化测试集（A1–E3）
+│   │
+│   ├── scripts/
+│   │   ├── batch_test.py              # 批量评测脚本
+│   │   └── metrics_report.py          # 指标统计与错误分类（后续）
+│   │
+│   └── output/
+│       ├── test_results.csv           # 批测结果表
+│       ├── test_results.json          # 原始结果归档
+│       └── metrics_report.json        # 指标统计结果（后续）
+│
+├── coze_assets/                       # Coze 侧资产归档，不参与运行
+│   ├── workflow_config.md             # workflow_id、当前链路说明
+│   ├── node_mapping.md                # S1/S2/S3/S5 节点职责说明
+│   ├── prompt_backup/                 # Coze prompt 备份
+│   │   ├── s2_prompt.md
+│   │   ├── s3_prompt.md
+│   │   └── s5_prompt.md
+│   └── version_log.md                 # Coze 改动记录
+│
+├── docs/                              # 文档层
+│   ├── architecture/                  # 架构说明
+│   ├── dev_logs/                      # 开发日志
+│   └── test_reports/                  # 测试报告
+│
+├── requirements.txt
+└── README.md

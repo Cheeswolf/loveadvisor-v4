@@ -1,0 +1,38 @@
+{
+  "warm_interaction": {
+    "has_intimacy_signal": true,
+    "has_relationship_probe": false,
+    "has_positive_reciprocity": true,
+    "has_rejection_signal": false,
+    "has_push_pull_pattern": false,
+    "has_sustained_coldness": false,
+    "signal_summary": ["双方表达亲密意愿", "互动积极热情"]
+  },
+  "cold_response": {
+    "has_intimacy_signal": false,
+    "has_relationship_probe": false,
+    "has_positive_reciprocity": false,
+    "has_rejection_signal": true,
+    "has_push_pull_pattern": false,
+    "has_sustained_coldness": true,
+    "signal_summary": ["B表现出明显回避", "互动冷淡"]
+  },
+  "ambiguous_push_pull": {
+    "has_intimacy_signal": true,
+    "has_relationship_probe": true,
+    "has_positive_reciprocity": false,
+    "has_rejection_signal": true,
+    "has_push_pull_pattern": true,
+    "has_sustained_coldness": false,
+    "signal_summary": ["混合信号: 亲近与距离并存", "矛盾互动模式"]
+  },
+  "basic_conversation": {
+    "has_intimacy_signal": false,
+    "has_relationship_probe": true,
+    "has_positive_reciprocity": true,
+    "has_rejection_signal": false,
+    "has_push_pull_pattern": false,
+    "has_sustained_coldness": false,
+    "signal_summary": ["A试探关系状态", "B给予正面但简短回应"]
+  }
+}

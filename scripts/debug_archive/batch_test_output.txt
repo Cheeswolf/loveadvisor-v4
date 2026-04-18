@@ -1,0 +1,191 @@
+=== LoveAdvisor V3 Batch Test ===
+API_URL    : http://127.0.0.1:8000/api/v1/analyze
+CASE_COUNT : 15
+
+[1/15] Running A1 ...
+[DEBUG] A1 sample_id: A1
+[DEBUG] repr(input_text): 'A：你好\nB：你好\nA：你是哪个专业的\nB：金融\nA：挺不错的'
+[DEBUG] repr(payload['chat_text']): 'A：你好\nB：你好\nA：你是哪个专业的\nB：金融\nA：挺不错的'
+  expected = 初识期 / 低
+  actual   = 初识期 / 低
+  r1       = True
+  suggest  = True
+  nextstep = True
+  issue    = -
+
+[2/15] Running A2 ...
+  expected = 初识期 / 中
+  actual   = 初识期 / 低
+  r1       = False
+  suggest  = True
+  nextstep = True
+  issue    = interest_level低估
+
+[3/15] Running A3 ...
+  expected = 初识期 / 中
+  actual   = 初识期 / 低
+  r1       = False
+  suggest  = True
+  nextstep = True
+  issue    = interest_level低估
+
+[4/15] Running B1 ...
+  expected = 暧昧期 / 高
+  actual   = 暧昧期 / 中
+  r1       = False
+  suggest  = True
+  nextstep = True
+  issue    = interest_level低估
+
+[5/15] Running B2 ...
+  expected = 暧昧期 / 中
+  actual   = 暧昧期 / 中
+  r1       = True
+  suggest  = True
+  nextstep = True
+  issue    = -
+
+[6/15] Running B3 ...
+  expected = 暧昧期 / 中
+  actual   = 暧昧期 / 中
+  r1       = True
+  suggest  = True
+  nextstep = True
+  issue    = -
+
+[7/15] Running C1 ...
+  expected = 拉扯期 / 中
+  actual   = 拉扯期 / 中
+  r1       = True
+  suggest  = True
+  nextstep = True
+  issue    = -
+
+[8/15] Running C2 ...
+  expected = 拉扯期 / 中
+  actual   = 拉扯期 / 低
+  r1       = False
+  suggest  = True
+  nextstep = True
+  issue    = interest_level低估
+
+[9/15] Running C3 ...
+  expected = 拉扯期 / 低
+  actual   = 暧昧期 / 中
+  r1       = False
+  suggest  = True
+  nextstep = True
+  issue    = interest_level高估
+
+[10/15] Running D1 ...
+  expected = 冷淡期 / 低
+  actual   = 冷淡期 / 低
+  r1       = True
+  suggest  = True
+  nextstep = True
+  issue    = -
+
+[11/15] Running D2 ...
+  expected = 冷淡期 / 低
+  actual   = 冷淡期 / 低
+  r1       = True
+  suggest  = True
+  nextstep = True
+  issue    = -
+
+[12/15] Running D3 ...
+  expected = 冷淡期 / 低
+  actual   = 冷淡期 / 低
+  r1       = True
+  suggest  = True
+  nextstep = True
+  issue    = -
+
+[13/15] Running E1 ...
+  expected = 无法判断 / 无法判断
+  actual   = 无法判断 / 无法判断
+  r1       = True
+  suggest  = True
+  nextstep = False
+  issue    = 系统兜底输出；next_step不克制
+
+[14/15] Running E2 ...
+  expected = 无法判断 / 无法判断
+  actual   = 初识期 / 低
+  r1       = False
+  suggest  = True
+  nextstep = True
+  issue    = 边界失守；误判初识
+
+[15/15] Running E3 ...
+  expected = 无法判断 / 无法判断
+  actual   = 无法判断 / 无法判断
+  r1       = True
+  suggest  = True
+  nextstep = True
+  issue    = 系统兜底输出
+
+=== DONE ===
+Saved results : E:\项目\LoveAdvisorV3\test_system\output\test_results.json
+Saved csv     : E:\项目\LoveAdvisorV3\test_system\output\test_results.csv
+Saved metrics : E:\项目\LoveAdvisorV3\test_system\output\metrics_report.json
+
+=== METRICS ===
+{
+  "total_cases": 15,
+  "stage_accuracy": 0.8667,
+  "r1_strict_accuracy": 0.6,
+  "suggestion_alignment_rate": 1.0,
+  "next_step_conservative_rate": 0.9333,
+  "full_chain_pass_rate": 0.5333,
+  "issue_breakdown": {
+    "interest_level低估": 4,
+    "interest_level高估": 1,
+    "系统兜底输出": 2,
+    "next_step不克制": 1,
+    "边界失守": 1,
+    "误判初识": 1
+  },
+  "group_stats": {
+    "A": {
+      "count": 3,
+      "stage_accuracy": 1.0,
+      "r1_strict_accuracy": 0.3333,
+      "suggestion_alignment_rate": 1.0,
+      "next_step_conservative_rate": 1.0,
+      "full_chain_pass_rate": 0.3333
+    },
+    "B": {
+      "count": 3,
+      "stage_accuracy": 1.0,
+      "r1_strict_accuracy": 0.6667,
+      "suggestion_alignment_rate": 1.0,
+      "next_step_conservative_rate": 1.0,
+      "full_chain_pass_rate": 0.6667
+    },
+    "C": {
+      "count": 3,
+      "stage_accuracy": 0.6667,
+      "r1_strict_accuracy": 0.3333,
+      "suggestion_alignment_rate": 1.0,
+      "next_step_conservative_rate": 1.0,
+      "full_chain_pass_rate": 0.3333
+    },
+    "D": {
+      "count": 3,
+      "stage_accuracy": 1.0,
+      "r1_strict_accuracy": 1.0,
+      "suggestion_alignment_rate": 1.0,
+      "next_step_conservative_rate": 1.0,
+      "full_chain_pass_rate": 1.0
+    },
+    "E": {
+      "count": 3,
+      "stage_accuracy": 0.6667,
+      "r1_strict_accuracy": 0.6667,
+      "suggestion_alignment_rate": 1.0,
+      "next_step_conservative_rate": 0.6667,
+      "full_chain_pass_rate": 0.3333
+    }
+  }
+}

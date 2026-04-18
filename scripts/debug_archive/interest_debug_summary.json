@@ -1,0 +1,121 @@
+[
+  {
+    "sample_id": "A2",
+    "expected_interest": "中",
+    "actual_interest": "低",
+    "s2": {
+      "initiative": "A更主动",
+      "response_length": "短",
+      "emotional_tone": "温",
+      "topic_depth": "浅",
+      "interaction_reciprocity": "弱承接",
+      "key_signals": [
+        "A主动提出邀约（下次一起去）",
+        "B使用语气词（哈哈）",
+        "B分享个人信息（在二教）"
+      ]
+    },
+    "s3": {
+      "has_intimacy_signal": false,
+      "has_push_pull_pattern": false,
+      "has_positive_reciprocity": true,
+      "has_sustained_coldness": false,
+      "has_relationship_probe": false,
+      "has_rejection_signal": false,
+      "signal_summary": [
+        "对话中存在双向积极互动，双方均主动推进话题并积极回应。"
+      ]
+    },
+    "r1_interest_reason": "兴趣等级低：初识期且不满足中兴趣信号条件"
+  },
+  {
+    "sample_id": "A3",
+    "expected_interest": "中",
+    "actual_interest": "低",
+    "s2": {
+      "initiative": "A更主动",
+      "response_length": "短",
+      "emotional_tone": "温",
+      "topic_depth": "浅",
+      "interaction_reciprocity": "弱承接",
+      "key_signals": [
+        "A主动给予赞美",
+        "B使用语气词“哈哈”回应"
+      ]
+    },
+    "s3": {
+      "has_intimacy_signal": false,
+      "has_push_pull_pattern": false,
+      "has_positive_reciprocity": true,
+      "has_sustained_coldness": false,
+      "has_relationship_probe": false,
+      "has_rejection_signal": false,
+      "signal_summary": [
+        "存在明显的双向积极互动：A发起赞美，B感谢并回赞"
+      ]
+    },
+    "r1_interest_reason": "兴趣等级低：初识期且不满足中兴趣信号条件"
+  },
+  {
+    "sample_id": "B1",
+    "expected_interest": "高",
+    "actual_interest": "中",
+    "s2": {
+      "initiative": "A更主动",
+      "response_length": "短",
+      "emotional_tone": "温",
+      "topic_depth": "浅",
+      "interaction_reciprocity": "弱承接",
+      "key_signals": [
+        "表达情感（B说“在想你啊”）",
+        "提出邀约（B说“想见你”）"
+      ]
+    },
+    "s3": {
+      "has_intimacy_signal": true,
+      "has_push_pull_pattern": false,
+      "has_positive_reciprocity": true,
+      "has_sustained_coldness": false,
+      "has_relationship_probe": false,
+      "has_rejection_signal": false,
+      "signal_summary": [
+        "存在明确的亲密表达（如“在想你啊”、“想见你”）",
+        "存在双向积极互动，双方都在推进话题和情感交流"
+      ]
+    },
+    "r1_interest_reason": "兴趣等级中：暧昧期但不满足高兴趣信号条件"
+  },
+  {
+    "sample_id": "C2",
+    "expected_interest": "中",
+    "actual_interest": "低",
+    "s2": {
+      "initiative": "A更主动",
+      "response_length": "短",
+      "emotional_tone": "温",
+      "topic_depth": "中",
+      "interaction_reciprocity": "弱承接",
+      "key_signals": [
+        "A表达情感（想你了）",
+        "A提出邀约（想见你）",
+        "B使用语气词（哈哈）",
+        "B提出反问（那你想我什么）",
+        "B表达限制（最近不太方便）"
+      ]
+    },
+    "s3": {
+      "has_intimacy_signal": true,
+      "has_push_pull_pattern": true,
+      "has_positive_reciprocity": false,
+      "has_sustained_coldness": false,
+      "has_relationship_probe": false,
+      "has_rejection_signal": true,
+      "signal_summary": [
+        "A方发起明确的亲密表达（想你了，想见你）",
+        "B方在简短回应后，最终给出了明确的拒绝表达（最近不太方便）",
+        "对话呈现A方推进、B方后退的推拉模式"
+      ]
+    },
+    "r1_interest_reason": "兴趣等级低：拉扯期且不满足中兴趣信号条件"
+  }
+]

@@ -1,0 +1,373 @@
+# 📘 LoveAdvisor V3 开发日志（Phase 2 - Phase 6 总结版）
+
+---
+
+# 一、开发周期概览
+
+* 时间范围：V3 Day 2 - Day 6（连续开发阶段）
+* 覆盖阶段：
+
+  * Phase 2：LLM Provider 层
+  * Phase 3：S2/S3 本地化
+  * Phase 4：R1 接入
+  * Phase 5：S5 + Guardrail
+  * Phase 6：API + 前端联调
+* 当前状态：✅ 已完成最小可用闭环（MVP级）
+
+---
+
+# 二、阶段推进记录
+
+---
+
+## 🔵 Phase 2：LLM Provider 层
+
+### 🎯 目标
+
+建立统一模型调用抽象层，摆脱 Coze 依赖
+
+### ✅ 完成内容
+
+* 实现：
+
+  * `base_provider`
+  * `deepseek_provider`
+  * `openai_provider`
+  * `mock_provider`
+  * `provider_factory`
+* 统一接口：
+
+  * `complete()`
+  * `generate_json()`
+* 增加能力：
+
+  * 错误处理
+  * 成本估算
+  * 健康检查
+
+### ⚠️ 问题记录
+
+* `generate_json()` 初期为 stub（非真实能力）
+* Provider 抽象存在轻微过度设计风险
+
+---
+
+## 🟢 Phase 3：S2 / S3 本地化
+
+### 🎯 目标
+
+替代 Coze 信号提取节点
+
+### ✅ 完成内容
+
+* 实现：
+
+  * `s2_prompt.py`
+  * `s3_prompt.py`
+  * `s2_parser.py`
+  * `s3_parser.py`
+* 新增：
+
+  * `signal_models.py`
+* 完成：
+
+  * JSON解析兜底
+  * 枚举值校验
+  * 单样本调试脚本
+
+### ⚠️ 问题记录
+
+* 枚举值出现不统一（“A 更主动” vs “A更主动”）
+* 已通过后续修复解决
+
+---
+
+## 🟣 Phase 3.5：枚举值统一修复（关键补丁）
+
+### 🎯 问题
+
+* Prompt / Parser / Schema / Debug 使用不同枚举格式
+
+### ✅ 修复措施
+
+* 统一标准值（无空格版本）
+* 增加 parser 兼容映射
+* 全链路统一（prompt / parser / schema / test）
+
+### 💡 影响
+
+* 提高解析稳定性
+* 避免隐性“无法判断”降级
+
+---
+
+## 🟡 Phase 4：R1 接入
+
+### 🎯 目标
+
+恢复本地规则主导决策
+
+### ✅ 完成内容
+
+* 新增：
+
+  * `r1_service.py`
+  * `R1Result schema`
+* 实现：
+
+  * S2/S3 → R1 推理
+* 关键点：
+
+  * ❗未修改 `rules.py`
+  * ❗完全复用 V2.5 成熟规则体系
+
+### ⚠️ 注意
+
+* `next_step_action` 仍存在于内部结果中（未对外收口）
+
+---
+
+## 🟠 Phase 5：S5 + Guardrail
+
+### 🎯 目标
+
+实现建议生成与边界控制
+
+### ✅ 完成内容
+
+* 实现：
+
+  * `s5_prompt.py`
+  * `s5_parser.py`
+  * `strategy_generator.py`
+  * `guardrail_service.py`
+* 新增：
+
+  * `S5Result schema`
+* 实现能力：
+
+  * 建议生成（心理分析 / 风险 / 建议 / next_step）
+  * Guardrail 阶段边界控制
+
+### 🧠 核心原则落地
+
+```text
+R1：决定状态
+S5：负责表达
+Guardrail：负责约束
+```
+
+### ⚠️ 注意
+
+* Guardrail 当前主要约束 `next_step`
+* 对 `suggestions` 约束能力仍需加强（后续优化点）
+
+---
+
+## 🔴 Phase 6：API + 前端联调
+
+### 🎯 目标
+
+打通最小可用闭环
+
+### ✅ 完成内容
+
+* API：
+
+  * `/analyze` 完整实现
+* Orchestrator：
+
+  * 串联完整链路
+* 前端：
+
+  * Streamlit 最小交互界面
+* 调试：
+
+  * debug 模式支持中间层输出
+
+### 🔗 完整链路
+
+```text
+输入
+→ S2
+→ S3
+→ R1
+→ S5
+→ Guardrail
+→ 输出
+```
+
+### 📦 返回结构
+
+* relationship_stage
+* interest_level
+* psychological_analysis
+* risk_points
+* suggestions
+* next_step
+* debug（可选）
+
+---
+
+# 三、关键工程问题记录（重点）
+
+---
+
+## ❗问题1：Token 上下文溢出（核心问题）
+
+### 表现
+
+```
+maximum context length exceeded
+```
+
+### 原因
+
+* 长对话历史
+* 大量项目背景注入
+* 高 completion 设置
+
+### ✅ 解决方案
+
+#### 开发模式转变：
+
+```text
+聊天式开发 → 任务分片式开发
+```
+
+#### 强制规范：
+
+* 每阶段新开聊天
+* 仅传最小任务上下文
+* 单任务 token ≤ 2k
+
+---
+
+## ❗问题2：枚举值不统一
+
+### 表现
+
+* "A 更主动" vs "A更主动"
+
+### 风险
+
+* parser 误判
+* 规则降级为“无法判断”
+
+### ✅ 解决方案
+
+* 统一标准值
+* parser 兼容映射
+* schema 强约束
+
+---
+
+## ❗问题3：职责边界漂移风险
+
+### 表现
+
+* S2/S3 想做判断
+* S5 想做阶段推理
+
+### ✅ 解决方案
+
+明确架构原则：
+
+```text
+S2/S3：信号层
+R1：决策层
+S5：表达层
+Guardrail：约束层
+```
+
+---
+
+# 四、当前系统能力
+
+---
+
+## ✅ 已具备
+
+### 本地能力
+
+* 信号提取（S2/S3）
+* 规则推理（R1）
+* 建议生成（S5）
+* 边界控制（Guardrail）
+
+### 工程能力
+
+* Provider 抽象层
+* Parser 兜底机制
+* Debug 可观测性
+* API 调用能力
+* 前端最小展示
+
+---
+
+## 🚀 系统形态
+
+```text
+一个可运行的本地情感分析系统（MVP）
+```
+
+---
+
+# 五、当前限制
+
+---
+
+## ⚠️ 未完成部分
+
+* 批量测试系统未接入
+* 模型真实能力未 fully 验证（DeepSeek）
+* Guardrail 未完全覆盖 suggestions
+* 无缓存 / 性能优化
+* 无历史记录
+* UI 简陋
+
+---
+
+# 六、阶段总结
+
+---
+
+## 从：
+
+* Coze 工作流依赖
+* Prompt 分散
+* 人工测试
+* 聊天式开发
+
+---
+
+## 到：
+
+* 本地工程系统
+* 模块化结构
+* 自动化链路
+* 可控开发流程
+
+---
+
+# 七、下一阶段
+
+---
+
+## 🚀 Phase 7：测试系统接入
+
+目标：
+
+* 接入 `test_system`
+* 实现批量评测
+* 输出 metrics
+* 支持回归测试
+
+---
+
+# 八、一句话总结
+
+---
+
+> V3 已从“架构搭建阶段”进入“系统验证阶段”，
+> 核心链路已完全本地化，下一步将进入 **工程质量控制（测试驱动阶段）**。

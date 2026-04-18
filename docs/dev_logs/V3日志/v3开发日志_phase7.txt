@@ -1,0 +1,315 @@
+好，这一轮我们直接**收口成正式开发日志（可归档版）**，你可以复制保存。
+
+---
+
+# 📘 LoveAdvisor V3 开发日志
+
+## Phase 7 完整收口记录（测试系统接入 → 真实链路打通）
+
+---
+
+## 【一、阶段目标】
+
+本阶段核心目标：
+
+```text
+1. 接入 test_system，恢复批量评测能力
+2. 打通本地 API → pipeline → 输出完整闭环
+3. 从 mock 过渡到真实 LLM（DeepSeek）
+4. 建立可观测 debug 体系
+5. 完成真实链路首次稳定运行
+```
+
+---
+
+## 【二、阶段执行路径（关键里程碑）】
+
+### ✅ Phase 7：测试系统接入
+
+* 修复 batch_test 请求结构（适配 V3）
+* 修正 API 路径：
+
+  ```
+  /analyze ❌ → /api/v1/analyze ✅
+  ```
+* metrics_report 正常工作
+
+👉 **结果：测试系统成功接入**
+
+---
+
+### ⚠️ Phase 7.5：接口异常排查
+
+问题：
+
+```text
+全部样本 = 请求失败 / 接口异常
+```
+
+根因：
+
+```text
+API_URL 配置错误（路径不一致）
+```
+
+👉 修复后进入真实评测阶段
+
+---
+
+### ⚠️ Phase 7.6：全链路“无法判断”
+
+表现：
+
+```text
+15/15 全部无法判断
+```
+
+根因：
+
+```text
+mock provider 返回非 JSON → parser 全失败 → R1 无输入
+```
+
+修复：
+
+* 为 mock provider 添加结构化 S2/S3 快捷路径
+
+👉 **结果：mock 模式恢复正常输出**
+
+---
+
+### ⚠️ Phase 7.7：Provider 架构重构
+
+问题：
+
+```text
+系统默认强制使用 mock
+```
+
+修复：
+
+* 引入环境变量控制 provider
+* 重构 provider_factory
+* 支持 deepseek / openai / mock
+
+👉 **结果：系统具备真实 LLM 切换能力**
+
+---
+
+### ⚠️ Phase 7.8：真实 DeepSeek 初次接入
+
+结果：
+
+```text
+provider_used = deepseek
+但结果仍全部无法判断
+```
+
+👉 说明：
+
+* API 已通
+* 但中间层存在问题
+
+---
+
+### ⚠️ Phase 7.9：Debug 可观测性增强
+
+新增：
+
+* s2_raw_response
+* s2_parsed
+* s3_raw_response
+* s3_parsed
+* r1_input / r1_output
+
+👉 **结果：问题定位能力建立**
+
+---
+
+### ❌ Phase 7.10：错误定位（误判为 parser）
+
+初步判断：
+
+```text
+parser 过严导致失败 ❌（误判）
+```
+
+---
+
+### ✅ Phase 7.11：真实根因锁定（关键突破）
+
+发现：
+
+```text
+asyncio.run() cannot be called from a running event loop
+```
+
+根因：
+
+```text
+在 FastAPI async 环境中错误使用 asyncio.run
+```
+
+修复：
+
+```text
+asyncio.run ❌ → await ✅
+```
+
+👉 **结果：S2/S3 执行恢复**
+
+---
+
+### ❌ Phase 7.12：DeepSeek API 报错
+
+错误：
+
+```text
+Model Not Exist
+```
+
+根因：
+
+```text
+默认模型 = gpt-4（错误传给 DeepSeek）
+```
+
+修复：
+
+```text
+deepseek-chat 作为默认模型
+```
+
+👉 **结果：API 调用成功**
+
+---
+
+### 🚀 Phase 7.12 最终验证（关键成功）
+
+真实返回（B1样本）：
+
+```text
+relationship_stage = 暧昧期
+interest_level = 中
+```
+
+并且：
+
+* S2 正常提取
+* S3 正常总结
+* R1 正常推理
+* S5 输出合理策略
+
+👉 **结果：真实 LLM 全链路首次跑通**
+
+
+
+---
+
+## 【三、最终系统状态】
+
+### 当前能力：
+
+```text
+✅ 支持真实 DeepSeek 推理
+✅ 完整 pipeline（S2→S3→R1→S5→Guardrail）
+✅ test_system 可用
+✅ debug 可观测
+```
+
+---
+
+### 当前定位：
+
+```text
+从「工程Demo」 → 「可用AI系统」
+```
+
+---
+
+## 【四、关键问题总结】
+
+本阶段核心问题链路：
+
+```text
+路由错误
+→ mock 锁死
+→ parser 无法解析
+→ async 调用错误
+→ 模型名错误
+→ 全链路失效
+```
+
+最终逐层拆解完成。
+
+---
+
+## 【五、当前未解决问题】
+
+进入 Phase 8 前仍存在：
+
+```text
+1. 模型输出稳定性（不同样本波动）
+2. parser 兼容性（边界格式问题）
+3. R1 判定精度（是否偏保守/激进）
+4. next_step 克制性策略优化
+```
+
+---
+
+## 【六、下一阶段计划】
+
+# 🎯 V3-Phase 8：评测驱动优化
+
+核心转变：
+
+```text
+从“能跑” → “跑得准”
+```
+
+---
+
+### Phase 8 核心任务：
+
+1. 跑完整 15 条 batch_test（deepseek）
+2. 获取真实 metrics：
+
+   * stage_accuracy
+   * r1_strict_accuracy
+   * next_step_conservative_rate
+3. 找系统性偏差：
+
+   * 是否过保守（全中低）
+   * 是否过激进（乱判暧昧）
+4. 基于评测数据优化：
+
+   * S2/S3 prompt
+   * parser 容错
+   * R1 规则边界
+
+---
+
+## 【七、阶段总结】
+
+```text
+V3 Phase 7 已完成核心目标：
+
+- 系统打通
+- 真实 LLM 接入
+- 全链路可运行
+- 可观测可调试
+
+系统进入“可优化阶段”
+```
+
+---
+
+# 🧠 最终一句话总结
+
+> **你已经完成了从“AI工作流项目”到“AI系统”的关键跨越。**
+
+---
+
+如果你准备好了，下一步我们直接开新聊天，进入：
+
+👉 **Phase 8：评测驱动优化（系统变强阶段）**

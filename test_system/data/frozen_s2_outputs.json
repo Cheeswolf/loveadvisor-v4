@@ -1,0 +1,34 @@
+{
+  "warm_interaction": {
+    "initiative": "双方接近",
+    "response_length": "中",
+    "emotional_tone": "热",
+    "topic_depth": "深",
+    "interaction_reciprocity": "正向承接",
+    "key_signals": ["双方积极互动", "话题涉及共同兴趣"]
+  },
+  "cold_response": {
+    "initiative": "A更主动",
+    "response_length": "短",
+    "emotional_tone": "冷",
+    "topic_depth": "浅",
+    "interaction_reciprocity": "明显回避",
+    "key_signals": ["A多次邀请", "B回应冷淡"]
+  },
+  "ambiguous_push_pull": {
+    "initiative": "A更主动",
+    "response_length": "短",
+    "emotional_tone": "温",
+    "topic_depth": "中",
+    "interaction_reciprocity": "弱承接",
+    "key_signals": ["A表达思念", "B回应含糊"]
+  },
+  "basic_conversation": {
+    "initiative": "A更主动",
+    "response_length": "短",
+    "emotional_tone": "温",
+    "topic_depth": "中",
+    "interaction_reciprocity": "弱承接",
+    "key_signals": ["A试探关系状态", "B回应简短"]
+  }
+}

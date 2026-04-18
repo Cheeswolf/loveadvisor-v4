@@ -1,0 +1,152 @@
+[
+  {
+    "sample_id": "A1",
+    "group": "A",
+    "input_text": "A：你好\nB：你好\nA：你是哪个专业的\nB：金融\nA：挺不错的",
+    "expected_relationship_stage": "初识期",
+    "expected_interest_level": "低",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "不克制",
+    "notes": "标准初识"
+  },
+  {
+    "sample_id": "A2",
+    "group": "A",
+    "input_text": "A：今天上课好累\nB：哈哈我也是\nA：你在哪个教室\nB：二教\nA：下次一起去啊\nB：可以",
+    "expected_relationship_stage": "初识期",
+    "expected_interest_level": "中",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "不克制",
+    "notes": "稍热但仍属初识"
+  },
+  {
+    "sample_id": "A3",
+    "group": "A",
+    "input_text": "A：你今天挺好看的\nB：哈哈谢谢\nA：真的\nB：你也不错",
+    "expected_relationship_stage": "初识期",
+    "expected_interest_level": "中",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "不克制",
+    "notes": "单次夸赞边界"
+  },
+  {
+    "sample_id": "B1",
+    "group": "B",
+    "input_text": "A：今天怎么不找我\nB：在想你啊\nA：真的假的\nB：骗你干嘛\nA：那你想我什么\nB：想见你",
+    "expected_relationship_stage": "暧昧期",
+    "expected_interest_level": "高",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "克制",
+    "notes": "标准暧昧"
+  },
+  {
+    "sample_id": "B2",
+    "group": "B",
+    "input_text": "A：你今天干嘛了\nB：上班\nA：累吗\nB：有点\nA：心疼你\nB：那你来陪我啊",
+    "expected_relationship_stage": "暧昧期",
+    "expected_interest_level": "中",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "不克制",
+    "notes": "轻度暧昧"
+  },
+  {
+    "sample_id": "B3",
+    "group": "B",
+    "input_text": "A：你最近是不是对我冷了\nB：哪有\nA：感觉你没以前那么主动了\nB：可能忙吧\nA：那你会想我吗\nB：会啊",
+    "expected_relationship_stage": "暧昧期",
+    "expected_interest_level": "中",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "不克制",
+    "notes": "关系试探型暧昧"
+  },
+  {
+    "sample_id": "C1",
+    "group": "C",
+    "input_text": "A：你最近怎么都不找我\nB：忙\nA：之前不是挺主动的吗\nB：那时候不一样\nA：什么意思\nB：没什么意思",
+    "expected_relationship_stage": "拉扯期",
+    "expected_interest_level": "中",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "克制",
+    "notes": "典型拉扯"
+  },
+  {
+    "sample_id": "C2",
+    "group": "C",
+    "input_text": "A：想你了\nB：哈哈\nA：就这反应？\nB：那你想我什么\nA：想见你\nB：最近不太方便",
+    "expected_relationship_stage": "拉扯期",
+    "expected_interest_level": "中",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "克制",
+    "notes": "冷热交替"
+  },
+  {
+    "sample_id": "C3",
+    "group": "C",
+    "input_text": "A：我感觉我挺在意你的\nB：嗯\nA：你呢\nB：就那样吧",
+    "expected_relationship_stage": "拉扯期",
+    "expected_interest_level": "低",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "不克制",
+    "notes": "低兴趣拉扯"
+  },
+  {
+    "sample_id": "D1",
+    "group": "D",
+    "input_text": "A：在吗\nB：在\nA：干嘛呢\nB：没干嘛\nA：聊会儿\nB：不太想",
+    "expected_relationship_stage": "冷淡期",
+    "expected_interest_level": "低",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "克制",
+    "notes": "标准冷淡"
+  },
+  {
+    "sample_id": "D2",
+    "group": "D",
+    "input_text": "A：今天挺有意思的\nB：嗯\nA：我给你讲讲\nB：不用了",
+    "expected_relationship_stage": "冷淡期",
+    "expected_interest_level": "低",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "克制",
+    "notes": "敷衍拒绝"
+  },
+  {
+    "sample_id": "D3",
+    "group": "D",
+    "input_text": "A：最近怎么样\nB：还行\nA：忙吗\nB：有点\nA：那你先忙\nB：嗯",
+    "expected_relationship_stage": "冷淡期",
+    "expected_interest_level": "低",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "不克制",
+    "notes": "慢性冷淡"
+  },
+  {
+    "sample_id": "E1",
+    "group": "E",
+    "input_text": "哈哈",
+    "expected_relationship_stage": "无法判断",
+    "expected_interest_level": "无法判断",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "克制",
+    "notes": "单句低信息"
+  },
+  {
+    "sample_id": "E2",
+    "group": "E",
+    "input_text": "A：在吗\nB：在",
+    "expected_relationship_stage": "无法判断",
+    "expected_interest_level": "无法判断",
+    "expected_suggestion_aligned": true,
+    "expected_next_step_style": "不克制",
+    "notes": "极短功能性对话"
+  },
+  {
+    "sample_id": "E3",
+    "group": "E",
+    "input_text": "A：今天干嘛了\nB：上班\nA：哦",
+    "expected_relationship_stage": "无法判断",
+    "expected_interest_level": "无法判断",
+    "expected_suggestion_aligned": false,
+    "expected_next_step_style": "不克制",
+    "notes": "信息不足边界样本"
+  }
+]

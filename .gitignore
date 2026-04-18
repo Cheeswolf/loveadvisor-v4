@@ -1,0 +1,23 @@
+﻿# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test outputs
+test_system/output/
+
+# Data
+data/cache/
+data/raw/
+
+# Node
+node_modules/
+.next/

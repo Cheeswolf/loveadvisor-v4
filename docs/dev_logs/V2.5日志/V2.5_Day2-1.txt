@@ -1,0 +1,33 @@
+【开发日志摘要】
+今日目标：
+完成 V2.5 Day2 批量评测脚本开发的准备工作，并对现有项目结构进行工程化重构。
+主要实施内容：
+新建项目目录，搭建分层结构（app / services / api / rules / utils / frontend）
+将原 main.py 拆分为多个模块（coze_client / pipeline / parser / output）
+重构 /analyze 接口，使其仅作为调用入口
+将 Coze 调用逻辑与业务流程解耦
+前端适配新接口结构，完成 Streamlit 页面重构
+补齐 rules.py 中缺失的 infer_r1 统一入口函数
+关键优化点：
+从“单文件后端”升级为“分层工程结构”
+明确 pipeline 主流程职责
+统一 R1 输出接口（relationship_stage + interest_level）
+建立后端与 Coze 工作流的稳定调用边界
+调试/报错处理：
+解决 module 'rules' has no attribute 'infer_r1' 错误
+修复规则层接口不一致问题
+验证 Coze 返回解析逻辑（S2/S3/S5）
+修复前端调用新接口后的字段映射问题
+测试与验收结果：
+后端成功启动并稳定运行
+/analyze 接口返回结构正确
+前端成功展示完整分析结果
+单样本测试链路（S2→R1→S5→O1）全部跑通
+当前结论：
+系统已从“原型阶段”升级为“工程化结构阶段”，具备稳定运行能力，为自动评测系统接入提供了基础。
+明日计划：
+正式实现 V2.5 Day2 核心任务：
+编写 batch_test.py
+接入结构化测试集
+实现批量调用 /analyze
+自动生成结果表与指标统计
