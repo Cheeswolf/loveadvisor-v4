@@ -178,7 +178,7 @@ class PipelineOrchestrator:
 # Simplified analysis pipeline for Phase 6 API + frontend integration
 # ============================================================================
 
-async def run_analysis_async(chat_text: str, user_question: str, provider_name: str = "mock", debug: bool = False) -> Dict[str, Any]:
+async def run_analysis_async(chat_text: str, user_question: str, provider_name: str = "deepseek", debug: bool = False) -> Dict[str, Any]:
     """
     Run the complete LoveAdvisor V3 analysis pipeline.
 
@@ -530,7 +530,7 @@ async def _run_s3(conversation_text: str, provider_name: str) -> Dict[str, Any]:
         }
 
 
-def run_analysis(chat_text: str, user_question: str, provider_name: str = "mock", debug: bool = False) -> Dict[str, Any]:
+def run_analysis(chat_text: str, user_question: str, provider_name: str = "deepseek", debug: bool = False) -> Dict[str, Any]:
     """
     Synchronous wrapper for run_analysis_async.
     Uses asyncio.run() to call the async version.

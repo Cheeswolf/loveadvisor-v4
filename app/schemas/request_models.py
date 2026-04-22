@@ -19,7 +19,7 @@ class AnalysisRequest(BaseModel):
     """
     chat_text: str = Field(..., description="The conversation text to analyze")
     user_question: str = Field(..., description="User's question or concern about the relationship")
-    provider_name: str = Field("mock", description="LLM provider name: 'mock' or 'deepseek'")
+    provider_name: str = Field("deepseek", description="LLM provider name: 'mock' or 'deepseek'")
     debug: bool = Field(False, description="Enable debug mode to include intermediate results")
 
     # Optional fields for backward compatibility

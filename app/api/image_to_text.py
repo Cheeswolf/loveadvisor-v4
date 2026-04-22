@@ -52,13 +52,35 @@ async def image_to_text_endpoint(
         HTTPException: 400 if validation fails
     """
     try:
+        # DEBUG: Log provider and request info
+        import os
+        debug_file = os.path.expanduser('~/debug_endpoint.txt')
+        with open(debug_file, 'w', encoding='utf-8') as f:
+            f.write(f'provider={provider}\n')
+            f.write(f'request_id={request_id}\n')
+            f.write(f'image_count={len(images)}\n')
+        print(f"[DEBUG] image_to_text_endpoint: provider={provider}, request_id={request_id}, image_count={len(images)}")
         # Call the image_to_text service with single provider implementation
-        return await image_to_text(
+        response = await image_to_text(
             images=images,
             provider=provider,
             source_type=source_type,
             request_id=request_id
         )
+        # DEBUG: Log final response before returning
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.info(f"[ROUTE DEBUG] Final response before returning: success={response.success}, provider={response.provider}, error_message={response.error_message}, metadata.implementation={response.metadata.get('implementation', 'N/A')}, raw_text preview={response.raw_text[:50] if response.raw_text else ''}")
+        # Also write to file for debugging
+        with open('debug_route_final.txt', 'w', encoding='utf-8') as f:
+            f.write(f"success={response.success}\n")
+            f.write(f"provider={response.provider}\n")
+            f.write(f"error_message={response.error_message}\n")
+            f.write(f"metadata.implementation={response.metadata.get('implementation', 'N/A')}\n")
+            f.write(f"raw_text preview={response.raw_text[:50] if response.raw_text else ''}\n")
+            f.write(f"full response model: {response}\n")
+        print(f"[ROUTE DEBUG] Final response: success={response.success}, provider={response.provider}")
+        return response
 
     except HTTPException:
         # Re-raise HTTP exceptions
@@ -71,7 +93,7 @@ async def image_to_text_endpoint(
         logger.error(f"Image-to-text processing failed: {e}", exc_info=True)
 
         # Return error response instead of raising HTTPException to maintain consistent format
-        return ImageToTextResponse(
+        error_response = ImageToTextResponse(
             success=False,
             raw_text="",
             merged_text="",
@@ -87,3 +109,13 @@ async def image_to_text_endpoint(
                 "error_type": "unexpected_exception"
             }
         )
+        # DEBUG: Log error response before returning
+        logger.info(f"[ROUTE DEBUG] Error response before returning: success={error_response.success}, provider={error_response.provider}, error_message={error_response.error_message}, metadata.implementation={error_response.metadata.get('implementation', 'N/A')}, raw_text preview={error_response.raw_text[:50] if error_response.raw_text else ''}")
+        with open('debug_route_error.txt', 'w', encoding='utf-8') as f:
+            f.write(f"success={error_response.success}\n")
+            f.write(f"provider={error_response.provider}\n")
+            f.write(f"error_message={error_response.error_message}\n")
+            f.write(f"metadata.implementation={error_response.metadata.get('implementation', 'N/A')}\n")
+            f.write(f"raw_text preview={error_response.raw_text[:50] if error_response.raw_text else ''}\n")
+        print(f"[ROUTE DEBUG] Error response: success={error_response.success}, provider={error_response.provider}")
+        return error_response

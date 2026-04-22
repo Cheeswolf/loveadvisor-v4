@@ -35,6 +35,10 @@ class ImageToTextResponse(BaseModel):
     success: bool = Field(..., description="Whether processing succeeded")
     raw_text: str = Field(..., description="Raw text extracted from all images (concatenated string)")
     merged_text: str = Field(..., description="Combined text from all images")
+    structured_chat_draft: str = Field(
+        default="",
+        description="Chat draft with speaker distinction and turn structure (if available)"
+    )
     provider: str = Field(..., description="Provider used for extraction")
     source_type: str = Field(..., description="Source type identifier, must be 'image'")
     image_count: int = Field(..., description="Number of images processed")

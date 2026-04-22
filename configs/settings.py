@@ -6,11 +6,14 @@ This module contains configuration settings for the LoveAdvisor V3 application.
 Settings are organized by component and environment.
 """
 
+import os
+from pathlib import Path
+
 # ============================================================================
 # V2.5 Legacy Configuration (for backward compatibility)
 # ============================================================================
 COZE_API = "https://api.coze.cn/v1/workflow/run"
-TOKEN = "pat_QUELD2jsDVTLlMntEAOCuqSXNyUGx1U4Eeh8Sg1jxpV8Qhg4rBQUuSetowoUOwz7"
+TOKEN = os.environ.get("COZE_API_TOKEN", "")
 
 # 工作流1：S1 -> S2 -> S3
 EXTRACT_WORKFLOW_ID = "7623810752218497034"
@@ -25,9 +28,6 @@ REQUEST_TIMEOUT = 90
 # ============================================================================
 # V3 Core Configuration
 # ============================================================================
-
-import os
-from pathlib import Path
 
 # Load environment variables from .env file if present
 env_path = Path(__file__).parent.parent / '.env'
@@ -44,8 +44,8 @@ else:
     print(f"No .env file found at {env_path}, using system environment variables")
 
 # Application Settings
-APP_NAME = "LoveAdvisor V3"
-APP_VERSION = "3.0.0-alpha"
+APP_NAME = "LoveAdvisor V4"
+APP_VERSION = "4.0.0"
 API_PREFIX = "/api/v1"
 ENVIRONMENT = "development"  # development, staging, production
 DEBUG = True

@@ -187,7 +187,7 @@ async def generate_strategy_async(
     s3: Dict[str, Any],
     r1: Dict[str, Any],
     user_question: str,
-    provider_name: str = "mock"
+    provider_name: str = "deepseek"
 ) -> Dict[str, Any]:
     """
     Generate S5 strategy based on S2, S3, R1 results and user question.
@@ -380,7 +380,7 @@ def generate_strategy(
     s3: Dict[str, Any],
     r1: Dict[str, Any],
     user_question: str,
-    provider_name: str = "mock"
+    provider_name: str = "deepseek"
 ) -> Dict[str, Any]:
     """
     Synchronous wrapper for generate_strategy_async.
